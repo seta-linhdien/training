@@ -17,6 +17,7 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
          steps {
+            sh "export DOCKER_BUILDKIT=0; export COMPOSE_DOCKER_CLI_BUILD=0;"
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
 
