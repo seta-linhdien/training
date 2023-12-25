@@ -1,5 +1,5 @@
 FROM node:latest
-WORKDIR /Users/linhdv/Download/homework
+WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
