@@ -17,7 +17,7 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
          steps {
-            sh "security -v unlock-keychain ~/Library/Keychains/login.keychain-db"
+            sh "security unlock-keychain -p LInkseven2011 /Users/linhdv/Library/Keychains/login.keychain; security set-keychain-settings -t 3600 -l /Users/linhdv/Library/Keychains/login.keychain;"
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
 
