@@ -10,14 +10,12 @@ pipeline {
         agent {
             node {
                 label "Build-server"
-                // customWorkspace "/Users/linhdv/Download/jenkins/multi-branch/devops-training-$ENV/"
                 }
             }
         environment {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
          steps {
-            // sh "security unlock-keychain -p LInkseven2011 /Users/linhdv/Library/Keychains/login.keychain; security set-keychain-settings -t 3600 -l /Users/linhdv/Library/Keychains/login.keychain;"
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
 
@@ -45,7 +43,8 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
 	steps {
-            sh "security unlock-keychain -p LInkseven2011 /Users/linhdv/Library/Keychains/login.keychain; security set-keychain-settings -t 3600 -l /Users/linhdv/Library/Keychains/login.keychain;"
+            sh "docker stop app"
+            sh "docker container prune -f"
             sh "sed -i '' 's/{tag}/$TAG/g' /Users/linhdv/Download/jenkins/multi-branch/devops-training-$ENV/docker-compose.yaml"
             sh "docker compose up -d"
         }      
